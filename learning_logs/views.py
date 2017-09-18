@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
@@ -25,7 +25,7 @@ def topics(request):
 @login_required
 def topic(request, topic_id):
     """Show a single topic, and all its entries."""
-    topic = Topic.objects.get(id=topic_id)
+    topic = get_object_or_404(Topic, id=topic_id)
     # Make sure the topic belongs to the current user.
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
